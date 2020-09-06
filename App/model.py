@@ -37,11 +37,10 @@ tablas de simbolos.
 """
 
 # -----------------------------------------------------
-# API del TAD Catalogo de Libros
+# API del TAD Catalogo de películas
 # -----------------------------------------------------
 
-
-def newCatalog():
+def new_movies_Catalog():
     """ Inicializa el catálogo de libros
 
     Crea una lista vacia para guardar todos los libros
@@ -54,34 +53,20 @@ def newCatalog():
 
     Retorna el catalogo inicializado.
     """
-    catalog = {'books': None,
-               'bookIds': None,
-               'authors': None,
-               'tags': None,
-               'tagIds': None,
-               'years': None}
+    catalog = {'movies': None,
+               'movie_id': None,
+               'name_movies': None}
+               
 
-    catalog['books'] = lt.newList('SINGLE_LINKED', compareBookIds)
-    catalog['bookIds'] = mp.newMap(200,
+    catalog['movies'] = lt.newList('SINGLE_LINKED', compare_id_movies)
+    catalog['movie_id'] = mp.newMap(3026,
                                    maptype='PROBING',
                                    loadfactor=0.4,
-                                   comparefunction=compareMapBookIds)
-    catalog['authors'] = mp.newMap(200,
+                                   comparefunction=compare_id_movies)
+    catalog['name_movies'] = mp.newMap(3026,
                                    maptype='PROBING',
                                    loadfactor=0.4,
-                                   comparefunction=compareAuthorsByName)
-    catalog['tags'] = mp.newMap(1000,
-                                maptype='CHAINING',
-                                loadfactor=0.7,
-                                comparefunction=compareTagNames)
-    catalog['tagIds'] = mp.newMap(1000,
-                                  maptype='CHAINING',
-                                  loadfactor=0.7,
-                                  comparefunction=compareTagIds)
-    catalog['years'] = mp.newMap(500,
-                                 maptype='CHAINING',
-                                 loadfactor=0.7,
-                                 comparefunction=compareMapYear)
+                                   comparefunction=compare_id_movies)
 
     return catalog
 
@@ -116,6 +101,8 @@ def newTagBook(name, id):
 
 # Funciones para agregar informacion al catalogo
 
+def addmovieID(catalogo,pelicula):
+    mp.put(catalogo["movie_id"],catalogo["id"],pelicula)
 
 def addBook(catalog, book):
     """
@@ -273,8 +260,15 @@ def getBooksByYear(catalog, year):
 # Funciones de Comparacion
 # ==============================
 
+def compare_id_movies(id1,id2):
+    if(id1 == id2):
+        return 0
+    elif id1 > id2:
+        return 1
+    else:
+        return -1
 
-def compareBookIds(id1, id2):
+def compareMapBookIds(id1, id2):
     """
     Compara dos ids de libros
     """
