@@ -69,12 +69,15 @@ def loadBooks(catalog, booksfile):
       autor, se crea una lista con sus libros
     """
     booksfile = cf.data_dir + booksfile
-    input_file = csv.DictReader(open(booksfile))
+    dialect=csv.excel()
+    dialect.delimiter=","
+    input_file = csv.DictReader(open(booksfile,encoding="utf-8"),dialect=dialect)
     for book in input_file:
         model.addBook(catalog, book)
         authors = book['authors'].split(",")  # Se obtienen los autores
         for author in authors:
             model.addBookAuthor(catalog, author.strip(), book)
+            
 
 
 def loadTags(catalog, tagsfile):
@@ -82,8 +85,10 @@ def loadTags(catalog, tagsfile):
     Carga en el catalogo los tags a partir de la informacion
     del archivo de etiquetas
     """
+    dialect=csv.excel()
+    dialect.delimiter=","
     tagsfile = cf.data_dir + tagsfile
-    input_file = csv.DictReader(open(tagsfile))
+    input_file = csv.DictReader(open(tagsfile,encoding="utf-8"),dialect=dialect)
     for tag in input_file:
         model.addTag(catalog, tag)
 
@@ -95,7 +100,7 @@ def loadBooksTags(catalog, booktagsfile):
     Adicionalmente se le agrega una referencia al libro procesado.
     """
     booktagsfile = cf.data_dir + booktagsfile
-    input_file = csv.DictReader(open(booktagsfile))
+    input_file = csv.DictReader(open(booktagsfile,encoding="utf-8"),dialect=dialect)
     for tag in input_file:
         model.addBookTag(catalog, tag)
 

@@ -39,9 +39,9 @@ operación seleccionada.
 # ___________________________________________________
 
 
-booksfile = 'GoodReads/books-small.csv'
-tagsfile = 'GoodReads/tags.csv'
-booktagsfile = 'GoodReads/book_tags-small.csv'
+booksfile = 'books-small.csv'
+tagsfile = 'tags.csv'
+booktagsfile = 'book_tags-small.csv'
 
 
 # ___________________________________________________
@@ -124,6 +124,7 @@ while True:
         print('Libros cargados: ' + str(controller.booksSize(cont)))
         print('Autores cargados: ' + str(controller.authorsSize(cont)))
         print('Géneros cargados: ' + str(controller.tagsSize(cont)))
+        print(controller.loadData(cont, booksfile, tagsfile, booktagsfile))
 
     elif int(inputs[0]) == 3:
         number = input("Buscando libros del año?: ")
